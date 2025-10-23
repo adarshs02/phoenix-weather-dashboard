@@ -1,0 +1,123 @@
+.sidebar {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-right: 1px solid #e2e8f0;
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 700;
+  padding: 20px;
+  margin: 0;
+  color: #1a202c;
+  border-bottom: 2px solid #e2e8f0;
+  background: #f7fafc;
+}
+
+.stationList {
+  flex: 1;
+  overflow-y: auto;
+  padding: 8px;
+}
+
+.stationItem {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stationItem:hover {
+  background: #f7fafc;
+  border-color: #3182ce;
+  transform: translateX(4px);
+  box-shadow: 0 2px 8px rgba(49, 130, 206, 0.15);
+}
+
+.stationItem.selected {
+  background: #ebf8ff;
+  border-color: #3182ce;
+  border-width: 2px;
+  box-shadow: 0 2px 12px rgba(49, 130, 206, 0.25);
+}
+
+.stationHeader {
+  margin-bottom: 8px;
+}
+
+.stationName {
+  font-size: 14px;
+  font-weight: 600;
+  margin: 0;
+  color: #2d3748;
+}
+
+.metrics {
+  display: flex;
+  gap: 12px;
+}
+
+.metric {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  background: #f7fafc;
+  border-radius: 4px;
+}
+
+.label {
+  font-size: 11px;
+  color: #718096;
+  font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.value {
+  font-size: 16px;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+/* AQI color coding */
+.value.aqi-good {
+  color: #00e400;
+}
+
+.value.aqi-moderate {
+  color: #ffff00;
+  text-shadow: 0 0 2px rgba(0, 0, 0, 0.5);
+}
+
+.value.aqi-unhealthy-sensitive {
+  color: #ff7e00;
+}
+
+.value.aqi-unhealthy {
+  color: #ff0000;
+}
+
+.value.aqi-very-unhealthy {
+  color: #8f3f97;
+}
+
+.value.aqi-hazardous {
+  color: #7e0023;
+}
+
+.timestamp {
+  font-size: 11px;
+  color: #888;
+  margin: 8px 0 0 0;
+  font-style: italic;
+}
+
+.noData {
+  color: #999;
+  font-style: italic;
+}
