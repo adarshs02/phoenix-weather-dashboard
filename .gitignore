@@ -36,12 +36,7 @@ frontend/.env.local
 .DS_Store
 Thumbs.db
 
-# Database
-*.db
-*.sqlite
-
 # Docker
-.docker/data/
 
 # Python
 venv/
