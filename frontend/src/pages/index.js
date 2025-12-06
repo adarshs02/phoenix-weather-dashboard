@@ -60,18 +60,25 @@ export default function Home() {
 
       <main className={styles.main}>
         <header className={styles.header}>
-          <h1 className={styles.title}>Phoenix Heat & Air-Quality Dashboard</h1>
-          <p className={styles.subtitle}>
-            Real-time monitoring of temperature and air quality across Phoenix metro area
-          </p>
-          {lastUpdated && (
-            <p className={styles.lastUpdated}>
-              Last updated: {lastUpdated.toLocaleString()}
-              <button onClick={loadData} className={styles.refreshButton}>
-                Refresh
-              </button>
-            </p>
-          )}
+          <div className={styles.headerContent}>
+            <div>
+              <h1 className={styles.title}>Phoenix Heat & Air-Quality Dashboard</h1>
+              <p className={styles.subtitle}>
+                Real-time monitoring | Data sources: NWS &amp; AirNow
+              </p>
+            </div>
+
+            <div className={styles.headerControls}>
+              {lastUpdated && (
+                <div className={styles.lastUpdated}>
+                  <span>Updated: {lastUpdated.toLocaleTimeString()}</span>
+                  <button onClick={loadData} className={styles.refreshButton}>
+                    Refresh
+                  </button>
+                </div>
+              )}
+            </div>
+          </div>
         </header>
 
         {loading && <div className={styles.loading}>Loading data...</div>}
@@ -102,13 +109,6 @@ export default function Home() {
           </div>
         )}
       </main>
-
-      <footer className={styles.footer}>
-        <p>
-          Data sources: National Weather Service (NWS) &amp; AirNow |
-          Group 45: Adarsh Srinivasan, Edwin Huang, Pavan Manjunath
-        </p>
-      </footer>
     </>
   );
 }

@@ -65,7 +65,7 @@ const Map = forwardRef(({ data, onMarkerClick }, ref) => {
   useEffect(() => {
     // Initialize map only once
     if (!mapInstanceRef.current && mapRef.current) {
-      mapInstanceRef.current = L.map(mapRef.current).setView([33.4484, -111.9400], 10);
+      mapInstanceRef.current = L.map(mapRef.current).setView([33.4484, -112.0740], 10);
 
       L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
@@ -74,8 +74,9 @@ const Map = forwardRef(({ data, onMarkerClick }, ref) => {
 
       // Add temperature legend
       const legend = L.control({ position: 'bottomright' });
-      legend.onAdd = function() {
+      legend.onAdd = function () {
         const div = L.DomUtil.create('div', 'temp-legend');
+        div.style.marginBottom = '25px'; // Move legend up slightly
         div.innerHTML = `
           <div style="
             background: white;

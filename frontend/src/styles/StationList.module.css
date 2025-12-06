@@ -1,25 +1,42 @@
 .sidebar {
   height: 100%;
+  /* Fill the flex parent */
+  width: 100%;
   display: flex;
   flex-direction: column;
   background: white;
+  min-height: 0;
+  /* Crucial: Allow creating scroll context */
+  /* Important for firefox/flex */
   border-right: 1px solid #e2e8f0;
+  overflow: hidden;
+  /* Crucial: Don't let children push bounds */
+  /* Prevent sidebar itself from double scrolling */
 }
 
 .title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
-  padding: 20px;
+  padding: 16px;
   margin: 0;
   color: #1a202c;
   border-bottom: 2px solid #e2e8f0;
   background: #f7fafc;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 2;
 }
 
 .stationList {
   flex: 1;
   overflow-y: auto;
+  /* Scroll here */
   padding: 8px;
+  -webkit-overflow-scrolling: touch;
+  min-height: 0;
+  /* Respect flex bounds */
+  /* Important for flex scrolling */
 }
 
 .stationItem {

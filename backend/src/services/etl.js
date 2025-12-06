@@ -26,14 +26,14 @@ class ETLService {
         variableMap[v.code] = v.id;
       });
 
-      // Process each station - fetch both temperature and AQI
-      for (const station of stations) {
-        try {
-          await this.processStation(station, variableMap);
-        } catch (error) {
-          console.error(`Error processing station ${station.name}:`, error.message);
-          // Continue with next station
-        }
+      // Process stations in parallel (batches of 5 to respect rate limits)
+      const batchSize = 5;
+      for (let i = 0; i < stations.length; i += batchSize) {
+        const batch = stations.slice(i, i + batchSize);
+        await Promise.all(batch.map(station =>
+          this.processStation(station, variableMap)
+            .catch(error => console.error(`Error processing station ${station.name}:`, error.message))
+        ));
       }
 
       const duration = Date.now() - startTime;
@@ -50,10 +50,8 @@ class ETLService {
     // Fetch temperature data using lat/lon (works for all stations)
     await this.fetchTemperatureData(station, variableMap);
 
-    // Fetch AQI data if station has a zip code
-    if (station.external_id && station.external_id.match(/^\d{5}$/)) {
-      await this.fetchAQIData(station, variableMap);
-    }
+    // Fetch AQI data for all stations (using zip or lat/lon)
+    await this.fetchAQIData(station, variableMap);
   }
 
   async fetchTemperatureData(station, variableMap) {
@@ -97,7 +95,20 @@ class ETLService {
 
   async fetchAQIData(station, variableMap) {
     try {
-      const aqiData = await this.airNowClient.getCurrentAQIByZipCode(station.external_id);
+      let aqiData = null;
+
+      // Try zip code first if available and valid
+      if (station.external_id && station.external_id.match(/^\d{5}$/)) {
+        aqiData = await this.airNowClient.getCurrentAQIByZipCode(station.external_id);
+      }
+
+      // Fallback to lat/lon if no zip code or if zip fetch failed/returned no data
+      if (!aqiData) {
+        aqiData = await this.airNowClient.getCurrentAQI(
+          parseFloat(station.latitude),
+          parseFloat(station.longitude)
+        );
+      }
 
       if (!aqiData) {
         console.log(`  No AQI data available`);
